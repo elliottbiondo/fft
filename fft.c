@@ -4,7 +4,6 @@
 #include <math.h>
 #include <string.h>
 
-
 #define PI 3.14159265358979323846
 
 void odd_even(complex double* samples, int num_samples)
@@ -14,15 +13,11 @@ void odd_even(complex double* samples, int num_samples)
     
     // copy all odd elements into temp;
     for (size_t i = 0; i<num_samples/2; i++)
-    {
         temp[i] = samples[i*2+1];
-    }
 
     // copy all even elements into the lower have of <samples>
     for (size_t i = 0; i<num_samples/2; i++)
-    {
         samples[i] = samples[i*2];
-    }
 
     // copy odd elements to the upper half of <samples>
     memcpy(samples + num_samples/2, temp, num_samples/2*sizeof(complex double));
@@ -49,12 +44,12 @@ void fft(complex double* samples, int num_samples)
     }    
 }
 
-void print_samples(complex double* samples, int num_samples)
+void print_data(complex double* data, int num_samples, char* filename)
 {
-    FILE *f = fopen("samples.txt", "w");
+    FILE *f = fopen(filename, "w");
     for(size_t i = 0; i < num_samples; i++)
     {
-        fprintf(f, "%f\n", creal(samples[i]));
+        fprintf(f, "%f\n", creal(data[i]));
     }
     fclose(f);
 }
@@ -83,9 +78,9 @@ int main(int argc, char* argv[])
         }
     }
 
-    print_samples(samples, num_samples);
+    print_data(samples, num_samples, "input.txt");
     fft(samples, num_samples);
-    print_samples(samples, num_samples);
+    print_data(samples, num_samples, "output.txt");
 
     free(samples);
 }
